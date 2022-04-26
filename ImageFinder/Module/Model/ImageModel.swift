@@ -8,12 +8,10 @@
 import Foundation
 import UIKit
 
-public struct ImageModel : Codable {
-
-    public let id: String
-    public let urls : Urls
+public struct ImageModel : Decodable {
+     let urls: PostUrls
 }
 
-public struct Urls : Codable {
-    public let raw : String
+struct PostUrls: Decodable {
+  let regular: String
 }

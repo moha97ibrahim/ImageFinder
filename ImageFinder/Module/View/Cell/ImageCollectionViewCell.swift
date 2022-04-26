@@ -18,7 +18,10 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        imageView = nil
+    }
+    
+    func configure(url : String){
+        imageView.imageFromServerURL(url, placeHolder: nil)
     }
 
 }

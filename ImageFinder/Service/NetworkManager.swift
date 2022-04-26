@@ -8,17 +8,25 @@
 import Foundation
 
 
-struct NetworkManager {
-    static let shared = NetworkManager()
+struct APIResponse: Decodable {
+    let results: [ImageModel]
     
-    func fetchrequest() {
-        perform(url: Constant.url)
+    enum CodingKeys: String, CodingKey {
+        case results = "results"
     }
+}
+
+struct NetworkManager {
+    typealias networkComletion = (APIResponse?) -> ()
+    static let shared = NetworkManager()
+    let url = "https://api.unsplash.com/search/photos?page=1&query=office"
+    let accessKey = "zybTQUOIaNX8yGwNN48sDLTF0KV_m8s83ESdCWnGsrk"
     
-    func perform(url : String){
-        if let url = URL(string: url) {
+    func perform(search : String, page : Int = 1, completion : @escaping(networkComletion)){
+        let seturl = "https://api.unsplash.com/search/photos?page=\(page)&query=\(search)&client_id=\(accessKey)&per_page=30"
+        if let url = URL(string: seturl) {
             let session = URLSession(configuration: .default)
-            
+             
             let sessionTask = session.dataTask(with: url) { data, response, error in
                 if let safeError = error {
                     print(safeError.localizedDescription)
@@ -27,7 +35,7 @@ struct NetworkManager {
                 
                 if let safeData = data {
                     if let decodedData = parseJson(for: safeData){
-                        print(decodedData)
+                        completion(decodedData)
                     }
                 }
             }
@@ -35,15 +43,15 @@ struct NetworkManager {
         }
     }
     
-    func parseJson(for data : Data) -> [ImageModel]?{
+    func parseJson(for data : Data) -> APIResponse?{
         let decode = JSONDecoder()
         
         do{
-            let decodedData =  try decode.decode([ImageModel].self, from: data)
+            let decodedData =  try decode.decode(APIResponse.self, from: data)
             return decodedData
         }
         catch {
-            print(error.localizedDescription)
+            print(error)
             return nil
         }
     }

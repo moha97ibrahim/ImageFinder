@@ -24,7 +24,7 @@
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="SGz-fm-54K">
                                 <rect key="frame" x="0.0" y="159" width="414" height="703"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OWB-cU-oh3">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OWB-cU-oh3">
                                     <size key="itemSize" width="128" height="128"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -54,9 +54,12 @@
                             <constraint firstItem="WH3-YM-ZrD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="s2x-k4-Ee3"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Image Finder" id="ETc-2l-e1A"/>
+                    <navigationItem key="navigationItem" title="Image Finder" id="ETc-2l-e1A">
+                        <barButtonItem key="rightBarButtonItem" image="line.horizontal.3.circle" catalog="system" id="KDo-ww-KNV"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="SGz-fm-54K" id="4QB-UN-e3v"/>
+                        <outlet property="optionBarItem" destination="KDo-ww-KNV" id="pBq-UC-ZLi"/>
                         <outlet property="searchBar" destination="WH3-YM-ZrD" id="Gdd-sV-4sy"/>
                     </connections>
                 </viewController>
@@ -84,6 +87,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="line.horizontal.3.circle" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
