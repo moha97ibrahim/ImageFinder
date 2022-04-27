@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         
         imageViewModel.fetchedData.bind{ data in
             if let safedata = data {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async { [unowned self] in
                     self.images = safedata
                     self.collectionView.reloadData()
                 }
@@ -47,7 +47,7 @@ class ViewController: UIViewController {
             if let safedata = data {
                 DispatchQueue.main.async {
                 self.additionalImages = safedata
-                    self.images += additionalImages
+                self.images += additionalImages
                 self.collectionView.reloadData()
                 }
             }
@@ -58,12 +58,15 @@ class ViewController: UIViewController {
     //MARK: - Methods
     
     func initView() {
-        collectionView.delegate = self
+        //collection view
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(UINib(nibName: Constant.cellnibName, bundle: nil), forCellWithReuseIdentifier: Constant.cellIdentifier)
         
+        //search bar
         searchBar.delegate = self
         
+        //optionmenu
         optionBarItem.menu = getUIMenu()
     }
     
@@ -77,28 +80,24 @@ class ViewController: UIViewController {
     }
 }
 
-//MARK: - UICollectionViewDelegate
+//MARK: - UICollectionViewDataSource UICollectionViewDelegate
 
-extension ViewController : UICollectionViewDelegate {
-    
-}
-
-
-//MARK: - UICollectionViewDataSource
-
-extension ViewController : UICollectionViewDataSource {
+extension ViewController : UICollectionViewDataSource,UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return images.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.cellIdentifier, for: indexPath) as! ImageCollectionViewCell
-        let temp = images as? [ImageModel]
-        let image = temp?[indexPath.row].urls.regular
-        if let safeImage = image {
-            cell.configure(url: safeImage)
-        }
+        let image = images[indexPath.row].urls.regular
+        cell.configure(url: image)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == images.count - 2 {
+            imageViewModel.getNextPage(ViewController.searchKey)
+        }
     }
 }
 
@@ -116,11 +115,7 @@ extension ViewController : UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if indexPath.row == images.count - 2 {
-            imageViewModel.getNextPage(ViewController.searchKey)
-        }
-    }
+    
     
     
    

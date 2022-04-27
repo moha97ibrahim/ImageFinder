@@ -10,18 +10,21 @@ import UIKit
 import CoreData
 
 public class ImageViewModel {
+    
+    //MARK: - Properties
     static let shared = ImageViewModel()
     var selctedColumn : Box<Int> = Box(2)
     var fetchedData : Box<[ImageModel]?> = Box(nil)
     var fetchedAdditionalData : Box<[ImageModel]?> = Box(nil)
     var networkManager = NetworkManager()
     let userDefault = UserDefaults.standard
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var cacheList : Box<[CachedImage]> = Box([])
     init(networkManager : NetworkManager = NetworkManager()){
         self.networkManager = networkManager
     }
     
+    //MARK: - Methods
+
     func selectedColumnOption(column : String){
         switch column {
             case "two":

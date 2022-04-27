@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20G95" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="CachedImage" representedClassName="CachedImage" syncable="YES" codeGenerationType="class">
-        <attribute name="search" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
-        <attribute name="url" attributeType="String"/>
-    </entity>
+    <entity name="CachedImage" representedClassName="CachedImage" syncable="YES" codeGenerationType="class"/>
+    <entity name="Entity" representedClassName="Entity" syncable="YES" codeGenerationType="class"/>
     <elements>
-        <element name="CachedImage" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="CachedImage" positionX="-63" positionY="-18" width="128" height="29"/>
+        <element name="Entity" positionX="-54" positionY="-9" width="128" height="29"/>
     </elements>
 </model>

@@ -8,6 +8,7 @@
 import Foundation
 
 
+//MARK: - Model
 struct APIResponse: Decodable {
     let results: [ImageModel]
     
@@ -16,13 +17,18 @@ struct APIResponse: Decodable {
     }
 }
 
+//MARK: - Network Manager
 struct NetworkManager {
+    
+    //MARK: - Properties
     typealias networkComletion = (APIResponse?) -> ()
     static let shared = NetworkManager()
     let url = "https://api.unsplash.com/search/photos?page=1&query=office"
     let accessKey = "zybTQUOIaNX8yGwNN48sDLTF0KV_m8s83ESdCWnGsrk"
     static var currentPage = 1
     
+    
+    //MARK: - Methods
     func perform(search : String, completion : @escaping(networkComletion)){
         if (ViewController.searchKey != search){
             NetworkManager.currentPage = 1
@@ -44,7 +50,6 @@ struct NetworkManager {
                     }
                     return
                 }
-                
                 if let safeData = data {
                     if let decodedData = parseJson(for: safeData){
                         completion(decodedData)

@@ -10,6 +10,7 @@ import UIKit
 class ImageCollectionViewCell: UICollectionViewCell {
 
     @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,7 +22,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
     }
     
     func configure(url : String){
-        imageView.imageFromServerURL(url, placeHolder: nil)
+        activityIndicator.startAnimating()
+        imageView.imageFromServerURL(url, placeHolder: nil, indicator: activityIndicator)
     }
 
 }
