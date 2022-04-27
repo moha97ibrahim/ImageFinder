@@ -7,13 +7,17 @@
 
 import Foundation
 import UIKit
+import CoreData
 
 public class ImageViewModel {
     static let shared = ImageViewModel()
     var selctedColumn : Box<Int> = Box(2)
-    var fetchedData : Box<APIResponse?> = Box(nil)
+    var fetchedData : Box<[ImageModel]?> = Box(nil)
+    var fetchedAdditionalData : Box<[ImageModel]?> = Box(nil)
     var networkManager = NetworkManager()
-    
+    let userDefault = UserDefaults.standard
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var cacheList : Box<[CachedImage]> = Box([])
     init(networkManager : NetworkManager = NetworkManager()){
         self.networkManager = networkManager
     }
@@ -38,7 +42,19 @@ public class ImageViewModel {
             else {
                 return
             }
-            self.fetchedData.value = data
+            self.fetchedData.value = data.results
+        }
+    }
+    
+    func getNextPage(_ search:String) {
+        NetworkManager.currentPage += 1
+        NetworkManager.shared.perform(search: search) {  [unowned self] data in
+            guard
+                let data = data
+            else {
+                return
+            }
+            self.fetchedAdditionalData.value = data.results
         }
     }
 }

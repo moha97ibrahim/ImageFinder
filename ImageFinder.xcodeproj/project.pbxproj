@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EE79C6502818351B008B129D /* ImageCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79C64F2818351B008B129D /* ImageCellModel.swift */; };
+		EE79C65228188D6B008B129D /* CacheModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE79C65128188D6B008B129D /* CacheModel.swift */; };
 		EE96D2FC281767F300E3CAE5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE96D2FB281767F300E3CAE5 /* AppDelegate.swift */; };
 		EE96D2FE281767F300E3CAE5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE96D2FD281767F300E3CAE5 /* SceneDelegate.swift */; };
 		EE96D300281767F300E3CAE5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE96D2FF281767F300E3CAE5 /* ViewController.swift */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		EE79C64F2818351B008B129D /* ImageCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCellModel.swift; sourceTree = "<group>"; };
+		EE79C65128188D6B008B129D /* CacheModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheModel.swift; sourceTree = "<group>"; };
 		EE96D2F8281767F300E3CAE5 /* ImageFinder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFinder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE96D2FB281767F300E3CAE5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EE96D2FD281767F300E3CAE5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 			children = (
 				EE96D3382817806800E3CAE5 /* ImageModel.swift */,
 				EE79C64F2818351B008B129D /* ImageCellModel.swift */,
+				EE79C65128188D6B008B129D /* CacheModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				EE96D33628177C3500E3CAE5 /* NetworkManager.swift in Sources */,
 				EE96D32F281768D300E3CAE5 /* Constants.swift in Sources */,
 				EE79C6502818351B008B129D /* ImageCellModel.swift in Sources */,
+				EE79C65228188D6B008B129D /* CacheModel.swift in Sources */,
 				EE96D300281767F300E3CAE5 /* ViewController.swift in Sources */,
 				EE96D2FC281767F300E3CAE5 /* AppDelegate.swift in Sources */,
 				EEB901652817B83800DD5452 /* Box.swift in Sources */,

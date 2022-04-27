@@ -16,7 +16,6 @@ extension UIImageView {
     
     func imageFromServerURL(_ URLString: String, placeHolder: UIImage?) {
         self.image = nil
-        // If image url's image name has space then this line going to work for this
         let imageServerUrl = URLString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
         if let cachedImage = imageCache.object(forKey: NSString(string: imageServerUrl)) {
             self.image = cachedImage
@@ -26,7 +25,6 @@ extension UIImageView {
 
         if let url = URL(string: imageServerUrl) {
             URLSession.shared.dataTask(with: url, completionHandler: { (data, response, error) in
-                //print("RESPONSE FROM API: \(response)")
                 if error != nil {
                     print("ERROR LOADING IMAGES FROM URL: \(String(describing: error))")
                     DispatchQueue.main.async {
@@ -45,5 +43,4 @@ extension UIImageView {
             }).resume()
         }
     }
-    
 }

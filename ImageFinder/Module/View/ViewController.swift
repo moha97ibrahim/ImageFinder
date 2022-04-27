@@ -18,7 +18,9 @@ class ViewController: UIViewController {
     let imageViewModel = ImageViewModel()
     private var numberOfColums : Int = 2
     private var images : [ImageModel] = []
+    private var additionalImages : [ImageModel] = []
     var imageCache = NSCache<AnyObject, UIImage>()
+    static var searchKey : String = ""
     
     //MARK: - UILifeCycle
     override func viewDidLoad() {
@@ -33,13 +35,24 @@ class ViewController: UIViewController {
         }
         
         imageViewModel.fetchedData.bind{ data in
-            if let safedata = data{
+            if let safedata = data {
                 DispatchQueue.main.async {
-                    self.images = safedata.results
+                    self.images = safedata
                     self.collectionView.reloadData()
                 }
             }
         }
+        
+        imageViewModel.fetchedAdditionalData.bind{ [unowned self] data in
+            if let safedata = data {
+                DispatchQueue.main.async {
+                self.additionalImages = safedata
+                    self.images += additionalImages
+                self.collectionView.reloadData()
+                }
+            }
+        }
+        
     }
     
     //MARK: - Methods
@@ -80,14 +93,17 @@ extension ViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constant.cellIdentifier, for: indexPath) as! ImageCollectionViewCell
-        let image = images[indexPath.row].urls.regular
-        cell.configure(url: image)
+        let temp = images as? [ImageModel]
+        let image = temp?[indexPath.row].urls.regular
+        if let safeImage = image {
+            cell.configure(url: safeImage)
+        }
         return cell
     }
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
-extension ViewController : UICollectionViewDelegateFlowLayout {
+extension ViewController : UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = (UIScreen.main.bounds.width - 4) / CGFloat(numberOfColums)
         return CGSize(width: width, height: width)
@@ -100,13 +116,21 @@ extension ViewController : UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 1
     }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if indexPath.row == images.count - 2 {
+            imageViewModel.getNextPage(ViewController.searchKey)
+        }
+    }
+    
+    
+   
 }
 
 //MARK: - UICollectionViewDelegateFlowLayout
 extension ViewController : UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.endEditing(true)
-        print(searchBar.text!)
+        ViewController.searchKey = searchBar.text!
         imageViewModel.getImages(searchBar.text!)
     }
 }

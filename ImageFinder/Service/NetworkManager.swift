@@ -21,15 +21,27 @@ struct NetworkManager {
     static let shared = NetworkManager()
     let url = "https://api.unsplash.com/search/photos?page=1&query=office"
     let accessKey = "zybTQUOIaNX8yGwNN48sDLTF0KV_m8s83ESdCWnGsrk"
+    static var currentPage = 1
     
-    func perform(search : String, page : Int = 1, completion : @escaping(networkComletion)){
-        let seturl = "https://api.unsplash.com/search/photos?page=\(page)&query=\(search)&client_id=\(accessKey)&per_page=30"
+    func perform(search : String, completion : @escaping(networkComletion)){
+        if (ViewController.searchKey != search){
+            NetworkManager.currentPage = 1
+        }
+        let seturl = "https://api.unsplash.com/search/photos?page=\(NetworkManager.currentPage)&query=\(search)&client_id=\(accessKey)&per_page=30"
         if let url = URL(string: seturl) {
             let session = URLSession(configuration: .default)
              
             let sessionTask = session.dataTask(with: url) { data, response, error in
                 if let safeError = error {
                     print(safeError.localizedDescription)
+                    if(safeError.localizedDescription.contains("offline")){
+                       if let offlinedata = UserDefaults.standard.data(forKey: search)
+                        {
+                            if let decodedData = parseJson(for: offlinedata){
+                                completion(decodedData)
+                            }
+                        }
+                    }
                     return
                 }
                 
@@ -48,6 +60,9 @@ struct NetworkManager {
         
         do{
             let decodedData =  try decode.decode(APIResponse.self, from: data)
+            if(UserDefaults.standard.data(forKey: ViewController.searchKey) == nil){
+                UserDefaults.standard.set(data, forKey: ViewController.searchKey)
+            }
             return decodedData
         }
         catch {
